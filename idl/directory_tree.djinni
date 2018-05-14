@@ -1,0 +1,15 @@
+file = record {
+    name : string;
+    hash : string;
+}
+
+directory = interface +c {
+    const get_name() : string;
+    const is_root() : bool;
+    const get_subdirectories() : list<directory>;
+    const get_files(recursive : bool) : list<file>;
+}
+
+directory_tree = interface +c {
+    static build_from_json(json : string) : directory;
+}
