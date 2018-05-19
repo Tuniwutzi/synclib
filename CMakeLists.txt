@@ -20,9 +20,10 @@ add_subdirectory("${_CD}/dependencies/json11")
 
 add_library(${TARGET_NAME} SHARED
     "${_CD}/include/BasicException.hpp"
-    "${_CD}/include/directorytree/DirectoryImpl.hpp"
-    "${_CD}/source/directorytree/DirectoryImpl.cpp"
-    "${_CD}/source/directorytree/DirectoryTree.cpp"
+    "${_CD}/include/DirectoryImpl.hpp"
+    "${_CD}/source/DirectoryImpl.cpp"
+    "${_CD}/include/FileSystemRepositoryImpl.hpp"
+    "${_CD}/source/FileSystemRepositoryImpl.cpp"
 )
 
 set(HEADER_SEARCH_PATHS

@@ -1,5 +1,5 @@
 out_dir="./generated_src"
-rm $out_dir
+rm -r $out_dir
 
 java_out="$out_dir/java"
 jni_out="$out_dir/jni"

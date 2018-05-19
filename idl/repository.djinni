@@ -1,0 +1,7 @@
+@import "directory_tree.djinni"
+
+repository = interface +c {
+    get_directory_tree() : directory;
+
+    static create_from_file_system(directory_path : string) : repository;
+}
