@@ -17,6 +17,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_subdirectory("${_CD}/dependencies/json11")
+add_subdirectory("${_CD}/dependencies/cppsupport")
 
 add_library(${TARGET_NAME} SHARED
     "${_CD}/include/BasicException.hpp"
@@ -29,13 +30,14 @@ add_library(${TARGET_NAME} SHARED
 set(HEADER_SEARCH_PATHS
     "${_CD}/generated_src/cpp/"
     "${_CD}/include/"
-    "${_CD}/dependencies/json11/")
+    "${_CD}/dependencies/json11/"
+    "${_CD}/dependencies/cppsupport/")
   
 target_include_directories(${TARGET_NAME} PUBLIC
     ${HEADER_SEARCH_PATHS}
 )
 target_link_libraries(${TARGET_NAME}
-    json11)
+    cppsupport)
 
 #set_target_properties(${TARGET_NAME} PROPERTIES
 #  PUBLIC_HEADER

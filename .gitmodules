@@ -4,3 +4,6 @@
 [submodule "dependencies/djinni"]
 	path = dependencies/djinni
 	url = https://github.com/dropbox/djinni.git
+[submodule "dependencies/cppsupport"]
+	path = dependencies/cppsupport
+	url = https://github.com/Tuniwutzi/cppsupport.git
