@@ -25,8 +25,9 @@ private:
     friend ::djinni::JniClass<NativeFile>;
 
     const ::djinni::GlobalRef<jclass> clazz { ::djinni::jniFindClass("de/jb/synclib/File") };
-    const jmethodID jconstructor { ::djinni::jniGetMethodID(clazz.get(), "<init>", "(Ljava/lang/String;Ljava/lang/String;)V") };
+    const jmethodID jconstructor { ::djinni::jniGetMethodID(clazz.get(), "<init>", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V") };
     const jfieldID field_mName { ::djinni::jniGetFieldID(clazz.get(), "mName", "Ljava/lang/String;") };
+    const jfieldID field_mPath { ::djinni::jniGetFieldID(clazz.get(), "mPath", "Ljava/lang/String;") };
     const jfieldID field_mHash { ::djinni::jniGetFieldID(clazz.get(), "mHash", "Ljava/lang/String;") };
 };
 

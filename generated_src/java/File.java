@@ -11,20 +11,32 @@ public final class File {
 
     /*package*/ final String mName;
 
+    /*package*/ final String mPath;
+
     /*package*/ final String mHash;
 
     public File(
             @NonNull String name,
+            @NonNull String path,
             @NonNull String hash) {
         this.mName = name;
+        this.mPath = path;
         this.mHash = hash;
     }
 
+    /** the file name including the extension if there is one */
     @NonNull
     public String getName() {
         return mName;
     }
 
+    /** the path relative to the root directory of the repository */
+    @NonNull
+    public String getPath() {
+        return mPath;
+    }
+
+    /** a hash of the file contents */
     @NonNull
     public String getHash() {
         return mHash;
@@ -34,6 +46,7 @@ public final class File {
     public String toString() {
         return "File{" +
                 "mName=" + mName +
+                "," + "mPath=" + mPath +
                 "," + "mHash=" + mHash +
         "}";
     }

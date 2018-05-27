@@ -9,6 +9,7 @@
 
 namespace synclib {
 
+struct CompareResult;
 struct File;
 
 class Directory {
@@ -22,6 +23,12 @@ public:
     virtual std::vector<std::shared_ptr<Directory>> getSubdirectories() const = 0;
 
     virtual std::vector<File> getFiles(bool recursive) const = 0;
+
+    /**
+     * Compares the files within two directories
+     * @return a list differences between the directories
+     */
+    static CompareResult compareFiles(const std::shared_ptr<Directory> & a, const std::shared_ptr<Directory> & b);
 };
 
 }  // namespace synclib

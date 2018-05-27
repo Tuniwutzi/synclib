@@ -20,6 +20,13 @@ public abstract class Directory {
     @NonNull
     public abstract ArrayList<File> getFiles(boolean recursive);
 
+    /**
+     * Compares the files within two directories
+     * @return a list differences between the directories
+     */
+    @NonNull
+    public static native CompareResult compareFiles(@Nullable Directory a, @Nullable Directory b);
+
     private static final class CppProxy extends Directory
     {
         private final long nativeRef;

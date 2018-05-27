@@ -14,16 +14,18 @@ auto NativeFile::fromCpp(JNIEnv* jniEnv, const CppType& c) -> ::djinni::LocalRef
     const auto& data = ::djinni::JniClass<NativeFile>::get();
     auto r = ::djinni::LocalRef<JniType>{jniEnv->NewObject(data.clazz.get(), data.jconstructor,
                                                            ::djinni::get(::djinni::String::fromCpp(jniEnv, c.name)),
+                                                           ::djinni::get(::djinni::String::fromCpp(jniEnv, c.path)),
                                                            ::djinni::get(::djinni::String::fromCpp(jniEnv, c.hash)))};
     ::djinni::jniExceptionCheck(jniEnv);
     return r;
 }
 
 auto NativeFile::toCpp(JNIEnv* jniEnv, JniType j) -> CppType {
-    ::djinni::JniLocalScope jscope(jniEnv, 3);
+    ::djinni::JniLocalScope jscope(jniEnv, 4);
     assert(j != nullptr);
     const auto& data = ::djinni::JniClass<NativeFile>::get();
     return {::djinni::String::toCpp(jniEnv, (jstring)jniEnv->GetObjectField(j, data.field_mName)),
+            ::djinni::String::toCpp(jniEnv, (jstring)jniEnv->GetObjectField(j, data.field_mPath)),
             ::djinni::String::toCpp(jniEnv, (jstring)jniEnv->GetObjectField(j, data.field_mHash))};
 }
 

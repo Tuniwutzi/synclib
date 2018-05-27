@@ -9,12 +9,18 @@
 namespace synclib {
 
 struct File final {
+    /** the file name including the extension if there is one */
     std::string name;
+    /** the path relative to the root directory of the repository */
+    std::string path;
+    /** a hash of the file contents */
     std::string hash;
 
     File(std::string name_,
+         std::string path_,
          std::string hash_)
     : name(std::move(name_))
+    , path(std::move(path_))
     , hash(std::move(hash_))
     {}
 };

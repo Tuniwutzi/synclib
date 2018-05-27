@@ -22,6 +22,20 @@ FileSystemRepositoryImpl::FileSystemRepositoryImpl(const std::string& path)
     :rootDirectoryPath(path) {
 }
 
+std::shared_ptr<Directory> FileSystemRepositoryImpl::getDirectoryTree() {
+    auto rv = std::make_shared<DirectoryImpl>(this->rootDirectoryPath, true);
+    fillDirectory(rv);
+    
+    return rv;
+}
+
+std::shared_ptr<InputStream> FileSystemRepositoryImpl::read(const File& from) const {
+    return nullptr;
+}
+std::shared_ptr<OutputStream> FileSystemRepositoryImpl::write(const File& to) {
+    return nullptr;
+}
+
 static std::string makeHash(cppsupport::FileSystem::File& file) {
     auto fstream = file.openRead(true);
     auto buffer = std::vector<char>(std::istreambuf_iterator<char>(fstream), std::istreambuf_iterator<char>());
@@ -29,14 +43,15 @@ static std::string makeHash(cppsupport::FileSystem::File& file) {
     auto& generator = cppsupport::HashGenerator::SHA1();
     return generator.generateChecksum(buffer, cppsupport::HashGenerator::ChecksumFormats::Hex);
 }
-static void fillDirectory(const std::shared_ptr<DirectoryImpl>& dir) {
+void FileSystemRepositoryImpl::fillDirectory(const std::shared_ptr<DirectoryImpl>& dir) {
     cppsupport::FileSystem::Directory fsDir(dir->getPath());
     
     auto files = fsDir.enumerateFiles("*", false);
     for (auto& file : files) {
         auto path = file.getPath();
         auto name = cppsupport::FileSystem::Path::GetFileName(path, true);
-        dir->addFile(File(name, makeHash(file)));
+        auto relativePath = cppsupport::FileSystem::Path::ToRelative(path, this->rootDirectoryPath);
+        dir->addFile(File(name, relativePath, makeHash(file)));
     }
     
     auto dirs = fsDir.enumerateDirectories("*", false);
@@ -45,12 +60,6 @@ static void fillDirectory(const std::shared_ptr<DirectoryImpl>& dir) {
         fillDirectory(subDir);
         dir->addSubDirectory(subDir);
     }
-}
-std::shared_ptr<Directory> FileSystemRepositoryImpl::getDirectoryTree() {
-    auto rv = std::make_shared<DirectoryImpl>(this->rootDirectoryPath, true);
-    fillDirectory(rv);
-    
-    return rv;
 }
 
 }

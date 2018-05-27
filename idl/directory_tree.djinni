@@ -1,6 +1,21 @@
 file = record {
+    # the file name including the extension if there is one
     name : string;
+    # the path relative to the root directory of the repository
+    path : string;
+    # a hash of the file contents
     hash : string;
+}
+
+# Represents the differences between two directories
+# This struct is obtained using the static directory::compare_files(a, b) method
+compare_result = record {
+    # Files that exist in directory a but not in b
+    only_in_a : list<file>;
+    # Files that exist in directory b but not in a
+    only_in_b : list<file>;
+    # Files that exist in both directories with different hash values
+    conflicting : list<file>;
 }
 
 directory = interface +c {
@@ -8,4 +23,8 @@ directory = interface +c {
     const is_root() : bool;
     const get_subdirectories() : list<directory>;
     const get_files(recursive : bool) : list<file>;
+    
+    # Compares the files within two directories
+    # @return a list differences between the directories
+    static compare_files(a : directory, b : directory) : compare_result;
 }

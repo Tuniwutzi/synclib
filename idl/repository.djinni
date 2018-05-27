@@ -1,7 +1,11 @@
 @import "directory_tree.djinni"
+@import "stream.djinni"
 
 repository = interface +c {
     get_directory_tree() : directory;
+    
+    const read(from : file) : input_stream;
+    write(to : file) : output_stream;
 
     static create_from_file_system(directory_path : string) : repository;
 }

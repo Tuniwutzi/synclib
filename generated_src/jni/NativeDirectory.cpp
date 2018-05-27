@@ -3,6 +3,7 @@
 
 #include "NativeDirectory.hpp"  // my header
 #include "Marshal.hpp"
+#include "NativeCompareResult.hpp"
 #include "NativeFile.hpp"
 
 namespace djinni_generated {
@@ -57,6 +58,16 @@ CJNIEXPORT jobject JNICALL Java_de_jb_synclib_Directory_00024CppProxy_native_1ge
         const auto& ref = ::djinni::objectFromHandleAddress<::synclib::Directory>(nativeRef);
         auto r = ref->getFiles(::djinni::Bool::toCpp(jniEnv, j_recursive));
         return ::djinni::release(::djinni::List<::djinni_generated::NativeFile>::fromCpp(jniEnv, r));
+    } JNI_TRANSLATE_EXCEPTIONS_RETURN(jniEnv, 0 /* value doesn't matter */)
+}
+
+CJNIEXPORT jobject JNICALL Java_de_jb_synclib_Directory_compareFiles(JNIEnv* jniEnv, jobject /*this*/, jobject j_a, jobject j_b)
+{
+    try {
+        DJINNI_FUNCTION_PROLOGUE0(jniEnv);
+        auto r = ::synclib::Directory::compareFiles(::djinni_generated::NativeDirectory::toCpp(jniEnv, j_a),
+                                                    ::djinni_generated::NativeDirectory::toCpp(jniEnv, j_b));
+        return ::djinni::release(::djinni_generated::NativeCompareResult::fromCpp(jniEnv, r));
     } JNI_TRANSLATE_EXCEPTIONS_RETURN(jniEnv, 0 /* value doesn't matter */)
 }
 

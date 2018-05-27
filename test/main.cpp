@@ -13,7 +13,7 @@ void printLine(const std::string& line, int depth) {
     std::cout << line << std::endl;
 }
 void printFile(const File& file, int depth = 0) {
-    printLine(file.name + " (" + file.hash + ")", depth);
+    printLine(file.name + " (" + file.path + ", " + file.hash + ")", depth);
 }
 void printDir(const std::shared_ptr<Directory>& dir, int depth = 0) {
     printLine(dir->getName() + (dir->isRoot() ? " (root)" : ""), depth);

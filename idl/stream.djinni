@@ -1,0 +1,5 @@
+input_stream = interface +c {
+}
+output_stream = interface +c {
+    copy(from : input_stream);
+}
