@@ -50,3 +50,8 @@ target_link_libraries(${TARGET_NAME}
 if (${TEST})
     add_subdirectory("${_CD}/test")
 endif()
+
+# Include a target for the IDL Files to show them in cmake IDEs
+FILE(GLOB IdlFiles "idl/*.djinni")
+add_custom_target(idl SOURCES ${IdlFiles})
+
