@@ -7,6 +7,10 @@
 #include "FileSystem/Directory.hpp"
 #include "FileSystem/File.hpp"
 #include "FileSystem/Path.hpp"
+#include "HashGenerator.h"
+
+#include <fstream>
+#include <sstream>
 
 namespace synclib {
 
@@ -18,14 +22,21 @@ FileSystemRepositoryImpl::FileSystemRepositoryImpl(const std::string& path)
     :rootDirectoryPath(path) {
 }
 
+static std::string makeHash(cppsupport::FileSystem::File& file) {
+    auto fstream = file.openRead(true);
+    auto buffer = std::vector<char>(std::istreambuf_iterator<char>(fstream), std::istreambuf_iterator<char>());
+    
+    auto& generator = cppsupport::HashGenerator::SHA1();
+    return generator.generateChecksum(buffer, cppsupport::HashGenerator::ChecksumFormats::Hex);
+}
 static void fillDirectory(const std::shared_ptr<DirectoryImpl>& dir) {
     cppsupport::FileSystem::Directory fsDir(dir->getPath());
     
     auto files = fsDir.enumerateFiles("*", false);
-    for (const auto& file : files) {
+    for (auto& file : files) {
         auto path = file.getPath();
         auto name = cppsupport::FileSystem::Path::GetFileName(path, true);
-        dir->addFile(File(name, "hash"));
+        dir->addFile(File(name, makeHash(file)));
     }
     
     auto dirs = fsDir.enumerateDirectories("*", false);
