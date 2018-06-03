@@ -9,6 +9,7 @@
 
 namespace synclib {
 
+enum class FileCompareResult;
 struct CompareResult;
 struct File;
 
@@ -28,7 +29,10 @@ public:
      * Compares the files within two directories
      * @return a list differences between the directories
      */
-    static CompareResult compareFiles(const std::shared_ptr<Directory> & a, const std::shared_ptr<Directory> & b);
+    static CompareResult compareDirectories(const std::shared_ptr<Directory> & a, const std::shared_ptr<Directory> & b);
+
+    /** Compares the passed files */
+    static FileCompareResult compareFiles(const File & a, const File & b);
 };
 
 }  // namespace synclib

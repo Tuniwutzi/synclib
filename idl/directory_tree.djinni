@@ -18,6 +18,15 @@ compare_result = record {
     conflicting : list<file>;
 }
 
+file_compare_result = enum {
+    # The compared files are unrelated
+    unrelated;
+    # The compared files have the same path and content
+    equal;
+    # The compared files have the same path but different contents
+    conflicting;
+}
+
 directory = interface +c {
     const get_name() : string;
     const is_root() : bool;
@@ -26,5 +35,7 @@ directory = interface +c {
     
     # Compares the files within two directories
     # @return a list differences between the directories
-    static compare_files(a : directory, b : directory) : compare_result;
+    static compare_directories(a : directory, b : directory) : compare_result;
+    # Compares the passed files
+    static compare_files(a : file, b : file) : file_compare_result;
 }

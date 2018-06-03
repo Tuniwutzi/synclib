@@ -3,6 +3,7 @@
 #include "BasicException.hpp"
 #include "DirectoryImpl.hpp"
 #include "File.hpp"
+#include "FileSystemStreams.hpp"
 
 #include "FileSystem/Directory.hpp"
 #include "FileSystem/File.hpp"
@@ -30,10 +31,14 @@ std::shared_ptr<Directory> FileSystemRepositoryImpl::getDirectoryTree() {
 }
 
 std::shared_ptr<InputStream> FileSystemRepositoryImpl::read(const File& from) const {
-    return nullptr;
+    std::ifstream stream(cppsupport::FileSystem::Path::Combine(this->rootDirectoryPath, from.path),
+                         std::ios_base::in | std::ios_base::binary);
+    return std::make_shared<FileSystemInputStream>(std::move(stream));
 }
 std::shared_ptr<OutputStream> FileSystemRepositoryImpl::write(const File& to) {
-    return nullptr;
+    std::ofstream stream(cppsupport::FileSystem::Path::Combine(this->rootDirectoryPath, to.path),
+                         std::ios_base::out | std::ios_base::binary);
+    return std::make_shared<FileSystemOutputStream>(std::move(stream));
 }
 
 static std::string makeHash(cppsupport::FileSystem::File& file) {
@@ -50,12 +55,18 @@ void FileSystemRepositoryImpl::fillDirectory(const std::shared_ptr<DirectoryImpl
     for (auto& file : files) {
         auto path = file.getPath();
         auto name = cppsupport::FileSystem::Path::GetFileName(path, true);
+        if (name.find(".") == 0) {
+            continue;
+        }
         auto relativePath = cppsupport::FileSystem::Path::ToRelative(path, this->rootDirectoryPath);
         dir->addFile(File(name, relativePath, makeHash(file)));
     }
     
     auto dirs = fsDir.enumerateDirectories("*", false);
     for (const auto& fsSubDir : dirs) {
+        if (cppsupport::FileSystem::Path::GetLastSegment(fsSubDir.getPath()).find(".") == 0) {
+            continue;
+        }
         auto subDir = std::make_shared<DirectoryImpl>(fsSubDir.getPath(), false);
         fillDirectory(subDir);
         dir->addSubDirectory(subDir);

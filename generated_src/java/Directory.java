@@ -25,7 +25,11 @@ public abstract class Directory {
      * @return a list differences between the directories
      */
     @NonNull
-    public static native CompareResult compareFiles(@Nullable Directory a, @Nullable Directory b);
+    public static native CompareResult compareDirectories(@Nullable Directory a, @Nullable Directory b);
+
+    /** Compares the passed files */
+    @NonNull
+    public static native FileCompareResult compareFiles(@NonNull File a, @NonNull File b);
 
     private static final class CppProxy extends Directory
     {

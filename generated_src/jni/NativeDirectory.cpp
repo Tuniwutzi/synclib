@@ -5,6 +5,7 @@
 #include "Marshal.hpp"
 #include "NativeCompareResult.hpp"
 #include "NativeFile.hpp"
+#include "NativeFileCompareResult.hpp"
 
 namespace djinni_generated {
 
@@ -61,13 +62,23 @@ CJNIEXPORT jobject JNICALL Java_de_jb_synclib_Directory_00024CppProxy_native_1ge
     } JNI_TRANSLATE_EXCEPTIONS_RETURN(jniEnv, 0 /* value doesn't matter */)
 }
 
+CJNIEXPORT jobject JNICALL Java_de_jb_synclib_Directory_compareDirectories(JNIEnv* jniEnv, jobject /*this*/, jobject j_a, jobject j_b)
+{
+    try {
+        DJINNI_FUNCTION_PROLOGUE0(jniEnv);
+        auto r = ::synclib::Directory::compareDirectories(::djinni_generated::NativeDirectory::toCpp(jniEnv, j_a),
+                                                          ::djinni_generated::NativeDirectory::toCpp(jniEnv, j_b));
+        return ::djinni::release(::djinni_generated::NativeCompareResult::fromCpp(jniEnv, r));
+    } JNI_TRANSLATE_EXCEPTIONS_RETURN(jniEnv, 0 /* value doesn't matter */)
+}
+
 CJNIEXPORT jobject JNICALL Java_de_jb_synclib_Directory_compareFiles(JNIEnv* jniEnv, jobject /*this*/, jobject j_a, jobject j_b)
 {
     try {
         DJINNI_FUNCTION_PROLOGUE0(jniEnv);
-        auto r = ::synclib::Directory::compareFiles(::djinni_generated::NativeDirectory::toCpp(jniEnv, j_a),
-                                                    ::djinni_generated::NativeDirectory::toCpp(jniEnv, j_b));
-        return ::djinni::release(::djinni_generated::NativeCompareResult::fromCpp(jniEnv, r));
+        auto r = ::synclib::Directory::compareFiles(::djinni_generated::NativeFile::toCpp(jniEnv, j_a),
+                                                    ::djinni_generated::NativeFile::toCpp(jniEnv, j_b));
+        return ::djinni::release(::djinni_generated::NativeFileCompareResult::fromCpp(jniEnv, r));
     } JNI_TRANSLATE_EXCEPTIONS_RETURN(jniEnv, 0 /* value doesn't matter */)
 }
 

@@ -25,6 +25,9 @@ add_library(${TARGET_NAME} SHARED
     "${_CD}/source/DirectoryImpl.cpp"
     "${_CD}/include/FileSystemRepositoryImpl.hpp"
     "${_CD}/source/FileSystemRepositoryImpl.cpp"
+    "${_CD}/include/CppStreams.hpp"
+    "${_CD}/include/FileSystemStreams.hpp"
+    "${_CD}/source/FileSystemStreams.cpp"
 )
 
 set(HEADER_SEARCH_PATHS
