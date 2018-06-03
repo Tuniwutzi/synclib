@@ -4,6 +4,7 @@
 #include "File.hpp"
 #include "Directory.hpp"
 #include "CompareResult.hpp"
+#include "OutputStream.hpp"
 
 using namespace synclib;
 
@@ -51,6 +52,22 @@ int main(int argc, char** argv) {
     
     auto comparison = Directory::compareDirectories(dirA, dirB);
     printComparison(comparison);
+    
+    for (const auto& file : comparison.onlyInA) {
+        auto iStream = repoA->read(file);
+        auto oStream = repoB->write(file);
+        
+        oStream->copy(iStream);
+    }
+    for (const auto& file : comparison.onlyInB) {
+        repoB->remove(file);
+    }
+    for (const auto& file : comparison.conflicting) {
+        auto iStream = repoA->read(file);
+        auto oStream = repoB->write(file);
+        
+        oStream->copy(iStream);
+    }
     
     printDir(dirA);
     return 0;
