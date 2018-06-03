@@ -13,6 +13,7 @@ public:
     
     virtual std::shared_ptr<InputStream> read(const File& from) const override;
     virtual std::shared_ptr<OutputStream> write(const File& to) override;
+    virtual void remove(const File& file) override;
     
 private:
     void fillDirectory(const std::shared_ptr<DirectoryImpl>& dir);

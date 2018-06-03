@@ -40,6 +40,10 @@ std::shared_ptr<OutputStream> FileSystemRepositoryImpl::write(const File& to) {
                          std::ios_base::out | std::ios_base::binary);
     return std::make_shared<FileSystemOutputStream>(std::move(stream));
 }
+void FileSystemRepositoryImpl::remove(const File& file) {
+    cppsupport::FileSystem::File cppFile(cppsupport::FileSystem::Path::Combine(this->rootDirectoryPath, file.path));
+    cppFile.erase();
+}
 
 static std::string makeHash(cppsupport::FileSystem::File& file) {
     auto fstream = file.openRead(true);

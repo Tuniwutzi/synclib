@@ -6,6 +6,7 @@ repository = interface +c {
     
     const read(from : file) : input_stream;
     write(to : file) : output_stream;
+    remove(file : file);
 
     static create_from_file_system(directory_path : string) : repository;
 }
