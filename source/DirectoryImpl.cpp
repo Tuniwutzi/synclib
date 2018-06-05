@@ -7,6 +7,8 @@
 
 #include "FileSystem/Path.hpp"
 
+#include <algorithm>
+
 namespace synclib {
 
 static std::string toLower(const std::string& str) {

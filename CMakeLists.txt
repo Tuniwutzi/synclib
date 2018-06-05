@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.9.2)
 
 set(_CD ${CMAKE_CURRENT_SOURCE_DIR})
-set(TARGET_NAME "SyncLib")
+set(TARGET_NAME "synclib")
 
 set(CMAKE_CONFIGURATION_TYPES
     Test)
@@ -19,7 +19,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_subdirectory("${_CD}/dependencies/json11")
 add_subdirectory("${_CD}/dependencies/cppsupport")
 
-add_library(${TARGET_NAME} SHARED
+add_library(${TARGET_NAME}
     "${_CD}/include/BasicException.hpp"
     "${_CD}/include/DirectoryImpl.hpp"
     "${_CD}/source/DirectoryImpl.cpp"
